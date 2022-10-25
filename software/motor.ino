@@ -46,8 +46,8 @@ float VEL_DESEJADA1 = 0.0; // em rotações por segundo (Vmáx = 9.1 rot/s)
 float VEL_DESEJADA2 = 0.0;
 
 //  Pinos dos PWMs dos Motores (1/2)
-const int pin_PwmM1 = 6;
-const int pin_PwmM2 = 3;
+const int pin_pwm_m1 = 6;
+const int pin_pwm_m2 = 3;
 
 //  Pinos das Direções dos Motors (1/2)
 const int pin_InAM1 = 22;
@@ -195,7 +195,7 @@ void atualiza_leitura2() {
 
 // Determina o movimento do motor
 void moveMotor(int pwm1, int pwm2){
-    analogWrite(pin_PwmM1, abs(pwm1));
+    analogWrite(pin_pwm_m1, abs(pwm1));
     if(pwm1 > 0){
         digitalWrite(pin_InAM1, LOW);
         digitalWrite(pin_InBM1, HIGH);
@@ -205,7 +205,7 @@ void moveMotor(int pwm1, int pwm2){
         digitalWrite(pin_InBM1, LOW);
     }
 
-    analogWrite(pin_PwmM2, abs(pwm2));
+    analogWrite(pin_pwm_m2, abs(pwm2));
     if(pwm2 > 0){
         digitalWrite(pin_InBM2, LOW);
         digitalWrite(pin_InAM2, HIGH);
