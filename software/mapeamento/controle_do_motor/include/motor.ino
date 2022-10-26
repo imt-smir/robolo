@@ -1,20 +1,20 @@
 #include "motor.h"
 
 // Criação das Funções
-// Quando o encoder1 perceber algum giro na roda1, esta função atualizará o valor de leitura1
-void atualiza_leitura1() {
-  if (digitalRead(pin_EN1B) == 1) leitura1++;
-  else leitura1--;
+// Quando o encoder1 perceber algum giro na roda1, esta função atualizará o valor de encoder_data1
+void update_encoder_data1() {
+  if (digitalRead(pin_EN1B) == 1) encoder_data1++;
+  else encoder_data1--;
 }
 
-// Quando o encoder2 perceber algum giro na roda2, esta função atualizará o valor de leitura2
-void atualiza_leitura2() {
-  if (digitalRead(pin_EN2B) == 0) leitura2--;
-  else leitura2++;
+// Quando o encoder2 perceber algum giro na roda2, esta função atualizará o valor de encoder_data2
+void update_encoder_data2() {
+  if (digitalRead(pin_EN2B) == 0) encoder_data2--;
+  else encoder_data2++;
 }
 
 // Determina o movimento do motor
-void moveMotor(int pwm1, int pwm2){
+void rotateMotor(int pwm1, int pwm2){
     analogWrite(pin_pwm_m1, abs(pwm1));
     if(pwm1 > 0){
         digitalWrite(pin_InAM1, LOW);
@@ -37,8 +37,7 @@ void moveMotor(int pwm1, int pwm2){
 
 }
 
-// Recebe os valores lidos da entrada serial, e transforma
-// em uma sequência de char 
+// Recebe os valores lidos da entrada serial, e transforma em uma sequência de char 
 void create_string(char* v, char* w){
     int idx = 0;
     int i = 3; 
@@ -72,26 +71,25 @@ void create_string(char* v, char* w){
     w[i] = '\0';
 }
 
-
 // Altera as velocidades desejadas conforme os controles no teleop
-void alteraVelocidade(){
+void changeVelocity(){
     x = atof(v);
     z = atof(w);
     
 
-    vel_desejada1 = (2 * x - z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);;
-    if (vel_desejada1 < -VEL_MAX){
-        vel_desejada1 = -VEL_MAX;
+    setpoint_vel1 = (2 * x - z * WHEEL_DISTANCE) * RAD_TO_ROT / (2 * WHEEL_RADIUS);;
+    if (setpoint_vel1 < -MAX_VEL){
+        setpoint_vel1 = -MAX_VEL;
     }
-    else if(vel_desejada1 > VEL_MAX){
-        vel_desejada1 = VEL_MAX;
+    else if(setpoint_vel1 > MAX_VEL){
+        setpoint_vel1 = MAX_VEL;
     }
 
-    vel_desejada2 = (2 * x + z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);
-    if (vel_desejada2 < -VEL_MAX){
-        vel_desejada2 = -VEL_MAX;
+    setpoint_vel2 = (2 * x + z * WHEEL_DISTANCE) * RAD_TO_ROT / (2 * WHEEL_RADIUS);
+    if (setpoint_vel2 < -MAX_VEL){
+        setpoint_vel2 = -MAX_VEL;
     }
-    else if(vel_desejada2 > VEL_MAX){
-        vel_desejada2 = VEL_MAX;
+    else if(setpoint_vel2 > MAX_VEL){
+        setpoint_vel2 = MAX_VEL;
     }
 }

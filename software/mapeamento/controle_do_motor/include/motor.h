@@ -11,23 +11,23 @@ terminal3: ./controlador_com_ros_e_serial.py
 CONTAS:
 x: velocidade linear do teleop
 z: velocidade angular do teleop
-R = RAIO_DA_RODA = 2.6 cm : raio da roda 
-L = DISTANCIA_DAS_RODAS = 22.3 cm : distância entre as rodas 
+R = WHEEL_RADIUS = 2.6 cm : raio da roda 
+L = WHEEL_DISTANCE = 22.3 cm : distância entre as rodas 
 
-n [rotação] = RAD_PARA_ROT = 0.5 [rotação] * 1 [rad] / pi [rad] = 0.1592 [rotação]
+n [rotação] = RAD_TO_ROT = 0.5 [rotação] * 1 [rad] / pi [rad] = 0.1592 [rotação]
 
-Vright = vel_desejada2 = (2 * x + z * L) * n / (2 * R)
-Vleft = vel_desejada1 = (2 * x - z * L) * n / (2 * R)
+Vright = setpoint_vel2 = (2 * x + z * L) * n / (2 * R)
+Vleft = setpoint_vel1 = (2 * x - z * L) * n / (2 * R)
 */
 
 SoftwareSerial mySerial(10, 11); // RX, TX
 
 //  Constantes utilizadas
-#define RAIO_DA_RODA (2.6/100)f
-#define DISTANCIA_DAS_RODAS (22.3/100)f
-#define RAD_PARA_ROT = (0.1592)f;
-#define VEL_MAX = (7)f;
-#define TEMPO_DE_LEITURA (100)l // E-03 segundos
+#define WHEEL_RADIUS (2.6/100)f
+#define WHEEL_DISTANCE (22.3/100)f
+#define RAD_TO_ROT = (0.1592)f;
+#define MAX_VEL = (7)f;
+#define ENCODER_READING_TIME (100)l // E-03 segundos
 
 // Valores resgatados do Teleop
 float x = 0;
@@ -42,8 +42,8 @@ char w[5]; // velocidade angular
 String data;
 
 // Velocidades Desejadas 
-float vel_desejada1 = 0.0; // em rotações por segundo (Vmáx = 9.1 rot/s)
-float vel_desejada2 = 0.0;
+float setpoint_vel1 = 0.0; // em rotações por segundo (Vmáx = 9.1 rot/s)
+float setpoint_vel2 = 0.0;
 
 //  Pinos dos PWMs dos Motores (1/2)
 #define pin_pwm_m1 6
@@ -67,28 +67,28 @@ float vel_desejada2 = 0.0;
 #define pin_Botao 12
 
 // Variáveis relacionadas à leitura dos Encoders dos Motores (1/2)
-volatile int leitura1 = 0;
-int ant_leitura1 = 0;
-volatile int leitura2 = 0;
-int ant_leitura2 = 0;
+volatile int encoder_data1 = 0;
+int last_encoder_data1 = 0;
+volatile int encoder_data2 = 0;
+int last_encoder_data2 = 0;
 
 // Variáveis relacionadas ao tempo
 long tf = 0; // t(k) em milissegundos
 long to = 0; // t(k-1) em milissegundos
-long contador = 0; // millis() - contador < TEMPO_DE_LEITURA
+long counter = 0; // millis() - counter < ENCODER_READING_TIME
 float dt; // [t(k) - t(k-1)] em segundos
 
 // Variáveis relacionadas à velocidade
-float velocidade1 = 0; // v(k) em rotações por segundo
-float ant_velocidade1 = 0; // v(k-1) em rotações por segundo
-float velocidade2 = 0; // v(k) em rotações por segundo
-float ant_velocidade2 = 0; // v(k-1) em rotações por segundo
+float velocity1 = 0; // v(k) em rotações por segundo
+float last_velocity1 = 0; // v(k-1) em rotações por segundo
+float velocity2 = 0; // v(k) em rotações por segundo
+float last_velocity2 = 0; // v(k-1) em rotações por segundo
 
 // Variáveis relacionadas ao erro das velocidades
 float e1 = 0; // e(k) = vDesejada - v(k)
-float ant_e1 = 0; // e(k-1) = vDesejada - v(k-1)
+float last_e1 = 0; // e(k-1) = vDesejada - v(k-1)
 float e2 = 0; // e(k) = vDesejada - v(k)
-float ant_e2 = 0; // e(k-1) = vDesejada - v(k-1)
+float last_e2 = 0; // e(k-1) = vDesejada - v(k-1)
 
 // Variáveis relacionadas ao movimento dos motores
 int pwm1 = 0; // valor que será inputado no motor, controlando a intensidade da velocidade
@@ -97,10 +97,10 @@ int pwm2 = 0; // valor que será inputado no motor, controlando a intensidade da
 int dir2 = 1; // valor que será inputado no motor, controlando sua direção (dizendo se irá para frente ou para trás)
 
 // Funções (explicações na montagem da função no final do código)
-void girarMotor(int dir, int pin, int pwmVal, int in1, int in2); 
+void rotateMotor(int pwm1, int pwm2);
 void create_string(char* v, char* w);
-void alteraVelocidade();
-void atualiza_leitura1();
-void atualiza_leitura2(); 
+void changeVelocity();
+void update_encoder_data1();
+void update_encoder_data2(); 
 
 #endif // MOTOR_H_INCLUDED

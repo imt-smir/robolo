@@ -25,8 +25,8 @@ void setup() {
     pinMode(pin_EN2B, INPUT);
 
     // criando a característica de interrupção para leitura dos pinos dos Encoders
-    attachInterrupt(digitalPinToInterrupt(pin_EN1A), atualiza_leitura1, RISING);
-    attachInterrupt(digitalPinToInterrupt(pin_EN2A), atualiza_leitura2, RISING);
+    attachInterrupt(digitalPinToInterrupt(pin_EN1A), update_encoder_data1, RISING);
+    attachInterrupt(digitalPinToInterrupt(pin_EN2A), update_encoder_data2, RISING);
 
 }
 
@@ -35,36 +35,36 @@ void loop() {
     c = mySerial.read();
     if(mySerial.available() > 0){
         create_string(v, w);
-        alteraVelocidade();
+        changeVelocity();
     }
 
     //Criando um intervalo para a mudança da velocidade do motor
-    if (millis() - contador > TEMPO_DE_LEITURA) {
+    if (millis() - counter > ENCODER_READING_TIME) {
         // Cálculo do tempo
         tf = millis(); // em milissegundo
         dt = ((float) (tf - to)) / (1000.0); // em segundos
         to = tf; // em milissegundo
 
         // Cálculo da velocidade
-        ant_velocidade1  = velocidade1; // em rotações por segundo
-        velocidade1  = (leitura1 - ant_leitura1)/ (300.0 * dt);   // 300 pulsos por volta, portanto isto transforma
+        last_velocity1  = velocity1; // em rotações por segundo
+        velocity1  = (encoder_data1 - last_encoder_data1)/ (300.0 * dt);   // 300 pulsos por volta, portanto isto transforma
                                                                 // pulsos por segundo em rotações por segundo
-        ant_leitura1  = leitura1; // em rotações por segundo
+        last_encoder_data1  = encoder_data1; // em rotações por segundo
 
-        ant_velocidade2 = velocidade2;
-        velocidade2 = (leitura2 - ant_leitura2) / (300.0 * dt);
-        ant_leitura2 = leitura2;
+        last_velocity2 = velocity2;
+        velocity2 = (encoder_data2 - last_encoder_data2) / (300.0 * dt);
+        last_encoder_data2 = encoder_data2;
 
         // Cálculo do erro
-        ant_e1 = e1;
-        e1 = vel_desejada1 - velocidade1;
+        last_e1 = e1;
+        e1 = setpoint_vel1 - velocity1;
 
-        ant_e2 = e2;
-        e2 = vel_desejada2 - velocidade2;
+        last_e2 = e2;
+        e2 = setpoint_vel2 - velocity2;
 
         // Aplicando a equação de diferenças encontrada
-        pwm1 = 11.05 * e1 + 1.093 * ant_e1 + pwm1;
-        pwm2 = 9.247 * e2 + 2.608 * ant_e2 + pwm2;
+        pwm1 = 11.05 * e1 + 1.093 * last_e1 + pwm1;
+        pwm2 = 9.247 * e2 + 2.608 * last_e2 + pwm2;
 
         if (pwm1 >= 255) pwm1 = 255; // pwmMáx = 255
         if (pwm1 <= -255) pwm1 = -255;
@@ -74,9 +74,9 @@ void loop() {
 
 
         // Atualizando o movimento do motor
-        moveMotor(pwm1, pwm2);
+        rotateMotor(pwm1, pwm2);
 
         // Próxima iteração do "void loop()" não entrará novamente neste while, apenas quando o novo intervalo chegar
-        contador = millis();
+        counter = millis();
     }
 }
