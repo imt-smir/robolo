@@ -25,8 +25,8 @@ SoftwareSerial mySerial(10, 11); // RX, TX
 //  Constantes utilizadas
 #define WHEEL_RADIUS (float)(2.6/100)
 #define WHEEL_DISTANCE (float)(22.3/100)
-#define RAD_TO_ROT = (float)(0.1592)
-#define MAX_VEL = (float)(7)
+#define RAD_TO_ROT (float)(0.1592)
+#define MAX_VEL (float)(7)
 #define ENCODER_READING_TIME (long)(100) // E-03 segundos
 
 // Valores resgatados do Teleop
