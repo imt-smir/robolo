@@ -22,8 +22,6 @@ def callback(data:Twist) -> None:
     sending_data(data.linear.x)
     sending_data(data.angular.z)
     
-
-
 def main():
     rospy.init_node('listener', anonymous=True)
     rospy.Subscriber("cmd_vel", Twist, callback)
