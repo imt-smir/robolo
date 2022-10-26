@@ -13,8 +13,8 @@ L = DISTANCIA_DAS_RODAS = 22.3 cm : distância entre as rodas
 
 n [rotação] = RAD_PARA_ROT = 0.5 [rotação] * 1 [rad] / pi [rad] = 0.1592 [rotação]
 
-Vright = VEL_DESEJADA2 = (2 * x + z * L) * n / (2 * R)
-Vleft = VEL_DESEJADA1 = (2 * x - z * L) * n / (2 * R)
+Vright = vel_desejada2 = (2 * x + z * L) * n / (2 * R)
+Vleft = vel_desejada1 = (2 * x - z * L) * n / (2 * R)
 */
 
 // Importando bibliotecas
@@ -76,10 +76,10 @@ void loop() {
 
         // Cálculo do erro
         ant_e1 = e1;
-        e1 = VEL_DESEJADA1 - velocidade1;
+        e1 = vel_desejada1 - velocidade1;
 
         ant_e2 = e2;
-        e2 = VEL_DESEJADA2 - velocidade2;
+        e2 = vel_desejada2 - velocidade2;
 
         // Aplicando a equação de diferenças encontrada
         pwm1 = 11.05 * e1 + 1.093 * ant_e1 + pwm1;

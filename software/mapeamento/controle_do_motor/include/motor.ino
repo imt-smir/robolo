@@ -79,19 +79,19 @@ void alteraVelocidade(){
     z = atof(w);
     
 
-    VEL_DESEJADA1 = (2 * x - z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);;
-    if (VEL_DESEJADA1 < -VEL_MAX){
-        VEL_DESEJADA1 = -VEL_MAX;
+    vel_desejada1 = (2 * x - z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);;
+    if (vel_desejada1 < -VEL_MAX){
+        vel_desejada1 = -VEL_MAX;
     }
-    else if(VEL_DESEJADA1 > VEL_MAX){
-        VEL_DESEJADA1 = VEL_MAX;
+    else if(vel_desejada1 > VEL_MAX){
+        vel_desejada1 = VEL_MAX;
     }
 
-    VEL_DESEJADA2 = (2 * x + z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);
-    if (VEL_DESEJADA2 < -VEL_MAX){
-        VEL_DESEJADA2 = -VEL_MAX;
+    vel_desejada2 = (2 * x + z * DISTANCIA_DAS_RODAS) * RAD_PARA_ROT / (2 * RAIO_DA_RODA);
+    if (vel_desejada2 < -VEL_MAX){
+        vel_desejada2 = -VEL_MAX;
     }
-    else if(VEL_DESEJADA2 > VEL_MAX){
-        VEL_DESEJADA2 = VEL_MAX;
+    else if(vel_desejada2 > VEL_MAX){
+        vel_desejada2 = VEL_MAX;
     }
 }
