@@ -1,22 +1,3 @@
-/*
-terminal1: roscore
-terminal2: rosrun teleop_twist_keyboard teleop_twist_keyboard.py
-terminal3: ./controlador_com_ros_e_serial.py
-*/
-
-/*
-CONTAS:
-x: velocidade linear do teleop
-z: velocidade angular do teleop
-R = RAIO_DA_RODA = 2.6 cm : raio da roda 
-L = DISTANCIA_DAS_RODAS = 22.3 cm : distância entre as rodas 
-
-n [rotação] = RAD_PARA_ROT = 0.5 [rotação] * 1 [rad] / pi [rad] = 0.1592 [rotação]
-
-Vright = vel_desejada2 = (2 * x + z * L) * n / (2 * R)
-Vleft = vel_desejada1 = (2 * x - z * L) * n / (2 * R)
-*/
-
 // Importando bibliotecas
 #include <SoftwareSerial.h>
 #include <stdlib.h>
