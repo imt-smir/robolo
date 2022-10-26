@@ -23,11 +23,11 @@ Vleft = setpoint_vel1 = (2 * x - z * L) * n / (2 * R)
 SoftwareSerial mySerial(10, 11); // RX, TX
 
 //  Constantes utilizadas
-#define WHEEL_RADIUS (2.6/100)f
-#define WHEEL_DISTANCE (22.3/100)f
-#define RAD_TO_ROT = (0.1592)f;
-#define MAX_VEL = (7)f;
-#define ENCODER_READING_TIME (100)l // E-03 segundos
+#define WHEEL_RADIUS (float)(2.6/100)
+#define WHEEL_DISTANCE (float)(22.3/100)
+#define RAD_TO_ROT = (float)(0.1592)
+#define MAX_VEL = (float)(7)
+#define ENCODER_READING_TIME (long)(100) // E-03 segundos
 
 // Valores resgatados do Teleop
 float x = 0;
