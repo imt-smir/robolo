@@ -137,3 +137,21 @@ void stringToVel(String v, String w, float* x, float* z){
     *x = v.toInt();
     *z = w.toInt();
 }
+
+void updateSetpoint(float x, float z, float* setpoint_vel1, float* setpoint_vel2){
+    *setpoint_vel1 = (2 * x - z * WHEEL_DISTANCE) * RAD_TO_ROT / (2 * WHEEL_RADIUS);;
+    if (*setpoint_vel1 < -MAX_VEL){
+        *setpoint_vel1 = -MAX_VEL;
+    }
+    else if(*setpoint_vel1 > MAX_VEL){
+        *setpoint_vel1 = MAX_VEL;
+    }
+
+    *setpoint_vel2 = (2 * x + z * WHEEL_DISTANCE) * RAD_TO_ROT / (2 * WHEEL_RADIUS);
+    if (*setpoint_vel2 < -MAX_VEL){
+        *setpoint_vel2 = -MAX_VEL;
+    }
+    else if(*setpoint_vel2 > MAX_VEL){
+        *setpoint_vel2 = MAX_VEL;
+    }
+}

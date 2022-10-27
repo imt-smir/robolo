@@ -40,7 +40,7 @@ void loop() {
         Serial.println(data_not_lost);
         readingdataChunk(&v, &w, data);
         stringToVel(v, w, &x, &z);
-        // updateSetpoint(float x, float z);
+        updateSetpoint(x, z, &setpoint_vel1, &setpoint_vel2);
     }
 
     // //Criando um intervalo para a mudança da velocidade do motor
