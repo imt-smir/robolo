@@ -97,8 +97,13 @@ int pwm2 = 0; // valor que será inputado no motor, controlando a intensidade da
 int dir2 = 1; // valor que será inputado no motor, controlando sua direção (dizendo se irá para frente ou para trás)
 
 // Funções (explicações na montagem da função no final do código)
+// void create_string(char* v, char* w);
+
+int validateDataChunk();
+void readingdataChink(char* v, char* w);
+void stringToVel(char* v, char* w, float* x, float* z);
+void updateSetpoint(float x, float z);
 void rotateMotor(int pwm1, int pwm2);
-void create_string(char* v, char* w);
 void changeVelocity();
 void update_encoder_data1();
 void update_encoder_data2(); 
