@@ -1,7 +1,7 @@
 // Importando bibliotecas
 #include <SoftwareSerial.h>
 #include <stdlib.h>
-#include "include.motor"
+#include "motor.h"
 
 
 // Setup
