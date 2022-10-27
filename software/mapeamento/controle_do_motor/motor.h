@@ -105,7 +105,7 @@ int dir2 = 1; // valor que será inputado no motor, controlando sua direção (d
 
 bool validateDataChunk(String* data);
 void readingdataChunk(String* v, String* w, String data);
-void stringToVel(String* v, String* w, float* x, float* z);
+void stringToVel(String v, String w, float* x, float* z);
 void updateSetpoint(float x, float z);
 void rotateMotor(int pwm1, int pwm2);
 void update_encoder_data1();

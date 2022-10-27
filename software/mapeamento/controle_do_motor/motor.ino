@@ -132,3 +132,8 @@ void readingdataChunk(String* v, String* w, String data){
         idx++;
     }
 }
+
+void stringToVel(String v, String w, float* x, float* z){
+    *x = v.toInt();
+    *z = w.toInt();
+}

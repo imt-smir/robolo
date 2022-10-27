@@ -39,7 +39,7 @@ void loop() {
         Serial.print('\t');
         Serial.println(data_not_lost);
         readingdataChunk(&v, &w, data);
-        // stringToVel(char* v, char* w, float* x, float* z);
+        stringToVel(v, w, &x, &z);
         // updateSetpoint(float x, float z);
     }
 
