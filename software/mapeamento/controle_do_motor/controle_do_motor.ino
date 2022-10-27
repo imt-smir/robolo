@@ -38,7 +38,7 @@ void loop() {
         Serial.print(data);
         Serial.print('\t');
         Serial.println(data_not_lost);
-        // readingdataChink(char* v, char* w);
+        readingdataChunk(&v, &w, data);
         // stringToVel(char* v, char* w, float* x, float* z);
         // updateSetpoint(float x, float z);
     }

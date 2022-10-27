@@ -104,3 +104,31 @@ bool validateDataChunk(String* data){
     if(atoi((*data)[(*data).length() - 2]) != (*data).length() - 3) return false;
     return true;
 }
+
+void readingdataChunk(String* v, String* w, String data){
+    int idx = 1;
+    int i = 3; 
+
+    // Velocidade linear
+    *v = String(data[idx]);
+    idx++;
+    if((*v)[0] == '-'){
+        i++;
+    }
+    for(int k = 1; k < i; k++){
+        *v = *v + String(data[idx]);
+        idx++;
+    }
+
+    // Velocidade angular
+    i = 3;
+    *w = String(data[idx]);
+    idx++;
+    if((*w)[0] == '-'){
+        i++;
+    }
+    for(int k = 1; k < i; k++){
+        *w = *w + String(data[idx]);
+        idx++;
+    }
+}
