@@ -41,6 +41,9 @@ char w[5]; // velocidade angular
 // Dados recebidos da entrada serial
 String data;
 
+// Verifica se a mensagem lida chegou intacta
+bool data_not_lost;
+
 // Velocidades Desejadas 
 float setpoint_vel1 = 0.0; // em rotações por segundo (Vmáx = 9.1 rot/s)
 float setpoint_vel2 = 0.0;
@@ -98,13 +101,13 @@ int dir2 = 1; // valor que será inputado no motor, controlando sua direção (d
 
 // Funções (explicações na montagem da função no final do código)
 // void create_string(char* v, char* w);
+// void changeVelocity();
 
-int validateDataChunk();
+bool validateDataChunk();
 void readingdataChink(char* v, char* w);
 void stringToVel(char* v, char* w, float* x, float* z);
 void updateSetpoint(float x, float z);
 void rotateMotor(int pwm1, int pwm2);
-void changeVelocity();
 void update_encoder_data1();
 void update_encoder_data2(); 
 
