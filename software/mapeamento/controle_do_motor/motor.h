@@ -35,8 +35,8 @@ float z = 0;
 
 // Variáveis que armazena os dados recebidos da entrada serial
 char c; // verifica o primeiro caractere da entrada serial
-char v[5]; // velocidade linear
-char w[5]; // velocidade angular
+String v; // velocidade linear
+String w; // velocidade angular
 
 // Dados recebidos da entrada serial
 String data;
@@ -103,9 +103,9 @@ int dir2 = 1; // valor que será inputado no motor, controlando sua direção (d
 // void create_string(char* v, char* w);
 // void changeVelocity();
 
-bool validateDataChunk();
-void readingdataChink(char* v, char* w);
-void stringToVel(char* v, char* w, float* x, float* z);
+bool validateDataChunk(String* data);
+void readingdataChink(String* v, String* w);
+void stringToVel(String* v, String* w, float* x, float* z);
 void updateSetpoint(float x, float z);
 void rotateMotor(int pwm1, int pwm2);
 void update_encoder_data1();
